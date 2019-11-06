@@ -1,0 +1,2 @@
+auth_login:
+    path: /auth/login
