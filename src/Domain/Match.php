@@ -63,7 +63,15 @@ class Match extends AggregateRoot
      */
     private $oddsB;
 
-    public function __construct(Team $teamA, Team $teamB)
+    public function __construct(Team $teamA, Team $teamB, float $oddsA, float $oddsB)
+    {
+        $this->teamA = $teamA;
+        $this->teamB = $teamB;
+        $this->oddsA = $oddsA;
+        $this->oddsB = $oddsB;
+    }
+
+    public function changeTeams(Team $teamA, Team $teamB)
     {
         $this->teamA = $teamA;
         $this->teamB = $teamB;

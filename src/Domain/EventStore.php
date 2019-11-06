@@ -3,7 +3,6 @@
 namespace Spacestack\Rockly\Domain;
 
 use Doctrine\ORM\Mapping as ORM;
-use Spacestack\Rockly\Domain\Events\MatchResultEntered;
 
 /**
  * @ORM\Entity

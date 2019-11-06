@@ -26,6 +26,15 @@ class AuthController
                 JsonResponse::HTTP_UNPROCESSABLE_ENTITY
             );
         }
+
+        $domain = explode('@', $data['email'])[1];
+        
+        if ($domain !== 'genesis.com.mt') {
+            return new JsonResponse(
+                'Register only with genesis.com.mt email',
+                JsonResponse::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
         
         $user = new User();
         $user->setEmail($data['email']);
