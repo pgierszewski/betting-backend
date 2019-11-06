@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    ports: 
+      - 8000:8000
+    volumes:
+      - .:/var/www/rockly
+      - ./docker/vhost.conf:/etc/nginx/conf.d/default.conf
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm.Dockerfile
+    volumes:
+      - .:/var/www/rockly
