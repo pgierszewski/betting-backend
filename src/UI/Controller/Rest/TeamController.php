@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Spacestack\Rockly\Infrastructure\DTO\Team;
 use Spacestack\Rockly\Infrastructure\Response\ResponseBuilder;
 use Spacestack\Rockly\App\TeamService;
+use Spacestack\Rockly\Infrastructure\DTO\TeamCollection;
 
 class TeamController
 {
@@ -20,13 +21,23 @@ class TeamController
     }
 
     /**
-     * @Route("/api/team", methods={"POST"}, name="api_team_add")
+     * @Route("/api/turbosekreturl/team", methods={"POST"}, name="api_team_add")
      */
     public function addTeam(Team $team): Response
     {
         return $this->responseBuilder->build(
             $this->teamService->create($team),
             Response::HTTP_CREATED
+        );
+    }
+
+    /**
+     * @Route("/api/team", methods={"GET"}, name="api_team_get_all")
+     */
+    public function getTeams(): Response
+    {
+        return $this->responseBuilder->build(
+            $this->teamService->getAllTeams()
         );
     }
 }

@@ -23,5 +23,7 @@ services:
         resource: '../src/UI/Controller'
         tags: ['controller.service_arguments']
 
+    Spacestack\Rockly\Domain\Repository\TeamRepository: '@Spacestack\Rockly\Infrastructure\Repository\DoctrineTeamRepository'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

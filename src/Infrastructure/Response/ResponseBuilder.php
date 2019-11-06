@@ -21,6 +21,10 @@ class ResponseBuilder
             $content = $this->serializer->serialize($content, 'json');
         }
 
+        if (is_array($content)) {
+            $content = $this->serializer->serialize($content, 'json');
+        }
+
         return new Response(
             $content,
             $code
