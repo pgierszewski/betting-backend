@@ -7,7 +7,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Spacestack\Rockly\Infrastructure\DTO\Team;
 use Spacestack\Rockly\Infrastructure\Response\ResponseBuilder;
 use Spacestack\Rockly\App\TeamService;
-use Spacestack\Rockly\Infrastructure\DTO\TeamCollection;
 
 class TeamController
 {

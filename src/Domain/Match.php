@@ -4,9 +4,11 @@ namespace Spacestack\Rockly\Domain;
 
 use Doctrine\ORM\Mapping as ORM;
 use Spacestack\Rockly\Domain\Events\MatchResultEntered;
+use Proxies\__CG__\Spacestack\Rockly\Domain\Team;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="matches")
  */
 class Match extends AggregateRoot
 {
@@ -47,7 +49,7 @@ class Match extends AggregateRoot
     /**
      * @var Team
      * @ORM\ManyToOne(targetEntity="Spacestack\Rockly\Domain\Team")
-     * @ORM\JoinColumn(name="team_b_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="winner_id", referencedColumnName="id")
      */
     private $winner;
 
@@ -69,6 +71,31 @@ class Match extends AggregateRoot
         $this->teamB = $teamB;
         $this->oddsA = $oddsA;
         $this->oddsB = $oddsB;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getTeamA(): Team
+    {
+        return $this->teamA;
+    }
+
+    public function getTeamB(): Team
+    {
+        return $this->teamB;
+    }
+
+    public function getOddsA(): float
+    {
+        return $this->oddsA;
+    }
+
+    public function getOddsB(): float
+    {
+        return $this->oddsB;
     }
 
     public function changeTeams(Team $teamA, Team $teamB)

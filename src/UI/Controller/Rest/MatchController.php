@@ -4,20 +4,46 @@ namespace Spacestack\Rockly\UI\Controller\Rest;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Spacestack\Rockly\Infrastructure\DTO\In\Match;
+use Spacestack\Rockly\App\MatchService;
+use Spacestack\Rockly\Infrastructure\Response\ResponseBuilder;
+
 class MatchController
 {
-    public function addMatch(): JsonResponse
+    private $matchService;
+    private $responseBuilder;
+
+    public function __construct(MatchService $matchService, ResponseBuilder $responseBuilder)
     {
-        return new JsonResponse();
+        $this->matchService = $matchService;
+        $this->responseBuilder = $responseBuilder;
     }
 
-    public function setResult(): JsonResponse
+    /**
+     * @Route("/api/turbosekreturl/match", methods={"POST"}, name="api_match_add")
+     */
+    public function addMatch(Match $match): Response
     {
-        return new JsonResponse();
+        return $this->responseBuilder->build(
+            $this->matchService->create($match),
+            Response::HTTP_CREATED
+        );
     }
 
-    public function deleteMatch(): JsonResponse
+    /**
+     * @Route("/api/match", methods={"GET"}, name="api_match_get_available")
+     */
+    public function getAvailableMatches(): Response
     {
-        return new JsonResponse();
+        return $this->responseBuilder->build(
+            $this->matchService->getAvailableMatches()
+        );
+    }
+
+    public function setResult(): Response
+    {
+        return new Response();
     }
 }

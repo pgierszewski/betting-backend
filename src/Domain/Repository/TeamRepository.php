@@ -8,4 +8,5 @@ interface TeamRepository
 {
     public function save(Team $team): Team;
     public function findAll();
+    public function findById(int $id): Team;
 }

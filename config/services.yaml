@@ -24,6 +24,7 @@ services:
         tags: ['controller.service_arguments']
 
     Spacestack\Rockly\Domain\Repository\TeamRepository: '@Spacestack\Rockly\Infrastructure\Repository\DoctrineTeamRepository'
+    Spacestack\Rockly\Domain\Repository\MatchRepository: '@Spacestack\Rockly\Infrastructure\Repository\DoctrineMatchRepository'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

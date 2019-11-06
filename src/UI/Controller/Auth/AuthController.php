@@ -13,7 +13,7 @@ use Spacestack\Rockly\App\BalanceFactory;
 class AuthController
 {
     /**
-     * @Route("/auth/register", methods={"POST"}, name="auth_register_post")
+     * @Route("/api/auth/register", methods={"POST"}, name="auth_register_post")
      */
     public function register(
         Request $request,
@@ -50,10 +50,6 @@ class AuthController
 
         $balance = $balanceFactory->create($user);
  
-        return new JsonResponse('User created');
-    }
-
-    public function activate()
-    {
+        return new JsonResponse('User created', JsonResponse::HTTP_CREATED);
     }
 }

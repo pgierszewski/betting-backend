@@ -29,4 +29,11 @@ class DoctrineTeamRepository implements TeamRepository
             ->getRepository(Team::class)
             ->findAll();
     }
+
+    public function findById(int $id): Team
+    {
+        return $this->em
+            ->getRepository(Team::class)
+            ->findOneBy(['id' => $id]);
+    }
 }
