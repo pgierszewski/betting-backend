@@ -3,6 +3,7 @@
 namespace Spacestack\Rockly\Domain;
 
 use Doctrine\ORM\Mapping as ORM;
+use Spacestack\Rockly\Domain\Bet\BetItem;
 
 /**
  * @ORM\Entity
@@ -25,18 +26,10 @@ class Bet
     private $user;
 
     /**
-     * @var Match
-     * @ORM\ManyToOne(targetEntity="Spacestack\Rockly\Domain\Match")
-     * @ORM\JoinColumn(name="match_id", referencedColumnName="id")
+     * @var BetItem[]
+     * @ORM\OneToMany(targetEntity="Spacestack\Rockly\Domain\Bet\BetItem", mappedBy="bet")
      */
-    private $match;
-
-    /**
-     * @var Team
-     * @ORM\ManyToOne(targetEntity="Spacestack\Rockly\Domain\Team")
-     * @ORM\JoinColumn(name="team_id", referencedColumnName="id")
-    */
-    private $bet;
+    private $items;
 
     /**
      * @var int
@@ -45,25 +38,34 @@ class Bet
     private $amount;
 
     /**
+     * @var int
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $winnings;
+
+    /**
      * @var bool
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $succesfull;
+    private $successful;
 
-    public function __construct(User $user, Match $match, Team $bet, int $amount)
+    public function __construct(User $user, array $betItems, int $amount)
     {
-        if ($match->winner) {
-            throw new DomainException("You can't place a bet to a finished match");
+        foreach ($betItems as $item) {
+            if ($item->match->winner) {
+                throw new DomainException("You can't place a bet to a finished match");
+            }
         }
+        
         $this->user = $user;
-        $this->match = $match;
-        $this->bet = $bet;
+        $this->items = $betItems;
         $this->amount = $amount;
     }
 
-    public function setSuccessfull(bool $succesfull)
+    public function solveBet(bool $successful, int $winnings)
     {
-        $this->succesfull = $succesfull;
+        $this->successful = $successful;
+        $this->winnings = $winnings;
     }
 
     public function getUser(): User
@@ -71,23 +73,23 @@ class Bet
         return $this->user;
     }
 
-    public function getMatch(): Match
-    {
-        return $this->match;
-    }
-
-    public function getBet(): Team
-    {
-        return $this->bet;
-    }
-
     public function getAmount(): int
     {
         return $this->amount;
     }
 
-    public function getSuccesfull(): bool
+    public function getSuccessful(): bool
     {
-        return $this->won;
+        return $this->successful;
+    }
+
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
+    public function getWinnings(): int
+    {
+        return $this->winnings;
     }
 }
