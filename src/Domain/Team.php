@@ -34,4 +34,19 @@ class Team
         $this->playerA = $playerA;
         $this->playerB = $playerB;
     }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getPlayerA(): string
+    {
+        return $this->playerA;
+    }
+
+    public function getPlayerB(): string
+    {
+        return $this->playerB;
+    }
 }

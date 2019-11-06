@@ -37,6 +37,7 @@ class BalanceFactory
                 )
             );
         }
+        $this->em->flush();
 
         return $balance;
     }

@@ -13,6 +13,14 @@ use Spacestack\Rockly\Domain\Bet;
 class BetItem
 {
     /**
+     * @var int
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
      * @var Match
      * @ORM\ManyToOne(targetEntity="Spacestack\Rockly\Domain\Match")
      * @ORM\JoinColumn(name="match_id", referencedColumnName="id")
