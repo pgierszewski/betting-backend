@@ -28,11 +28,6 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="Spacestack\Rockly\Domain\Survey", mappedBy="user")
-     */
-    private $surveys;
-
-    /**
      * @ORM\Column(name="is_active", type="boolean")
      */
     private $isActive;
@@ -40,6 +35,11 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = true;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function getUsername()

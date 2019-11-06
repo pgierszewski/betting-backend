@@ -30,11 +30,16 @@ class Balance extends AggregateRoot
     /**
      * @var int
      */
-    private $balance;
+    private $balance = 0;
 
-    public function __create(User $user)
+    public function __construct(User $user)
     {
         $this->user = $user;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function getBalance(): int
@@ -44,11 +49,11 @@ class Balance extends AggregateRoot
 
     public function subBalance(int $amount)
     {
-        if ($this->amount < $amount) {
+        if ($this->balance < $amount) {
             throw new DomainException("Insufficient balance");
         }
 
-        $this->amount = $this->amount - $amount;
+        $this->balance = $this->amount - $amount;
         $this->dispatchEvent(
             new SubBalance($amount)
         );
@@ -56,7 +61,7 @@ class Balance extends AggregateRoot
 
     public function addBalance(int $amount)
     {
-        $this->amount += $amount;
+        $this->balance += $amount;
         $this->dispatchEvent(
             new AddBalance($amount)
         );
@@ -64,12 +69,12 @@ class Balance extends AggregateRoot
 
     private function add(int $amount)
     {
-        $this->amount += $amount;
+        $this->balance += $amount;
     }
 
     private function sub(int $amount)
     {
-        $this->amount -= $amount;
+        $this->balance -= $amount;
     }
 
     public function applyEvents(Event ...$events)

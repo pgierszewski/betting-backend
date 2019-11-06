@@ -2,6 +2,8 @@
 
 namespace Spacestack\Rockly\Domain;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Entity
  */
@@ -44,7 +46,7 @@ class Bet
 
     /**
      * @var bool
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $succesfull;
 

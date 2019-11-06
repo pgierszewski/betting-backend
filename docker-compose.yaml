@@ -15,3 +15,14 @@ services:
       dockerfile: ./docker/php-fpm.Dockerfile
     volumes:
       - .:/var/www/rockly
+
+  mysql:
+    image: mysql:5
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: 123
+    volumes:
+      - /tmp/docker/mysql:/var/lib/mysql2
+    ports:
+      - 3307:3306
