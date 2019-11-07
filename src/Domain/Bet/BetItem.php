@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Spacestack\Rockly\Domain\Match;
 use Spacestack\Rockly\Domain\Team;
 use Spacestack\Rockly\Domain\Bet;
+use Zend\EventManager\Exception\DomainException;
 
 /**
  * @ORM\Entity
@@ -35,6 +36,12 @@ class BetItem
     private $type;
 
     /**
+     * @var float
+     * @ORM\Column(type="float")
+    */
+    private $odds;
+
+    /**
      * @var Bet
      * @ORM\ManyToOne(targetEntity="Spacestack\Rockly\Domain\Bet", inversedBy="items")
      * @ORM\JoinColumn(name="bet_id", referencedColumnName="id")
@@ -49,6 +56,17 @@ class BetItem
 
     public function __construct(Bet $bet, Match $match, Team $type)
     {
+        if ($type->getId() != $match->getTeamA()->getId()
+            && $type->getId() != $match->getTeamB()->getId()
+        ) {
+            throw new DomainException("Invalid bet");
+        }
+
+        if ($type === $this->match->getTeamA()) {
+            $this->odds = $this->match->getOddsA();
+        } else {
+            $this->odds = $this->match->getOddsB();
+        }
         $this->bet = $bet;
         $this->match = $match;
         $this->type = $type;

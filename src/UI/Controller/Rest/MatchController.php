@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Spacestack\Rockly\Infrastructure\DTO\In\Match;
 use Spacestack\Rockly\App\MatchService;
 use Spacestack\Rockly\Infrastructure\Response\ResponseBuilder;
+use Spacestack\Rockly\Infrastructure\DTO\Result;
 
 class MatchController
 {
@@ -33,6 +34,16 @@ class MatchController
     }
 
     /**
+     * @Route("/api/turbosekreturl/match/{matchId}", methods={"POST"}, name="api_match_set_result")
+     */
+    public function setResult(Result $result, int $matchId): Response
+    {
+        return $this->responseBuilder->build(
+            $this->matchService->setResult($result, $matchId)
+        );
+    }
+
+    /**
      * @Route("/api/match", methods={"GET"}, name="api_match_get_available")
      */
     public function getAvailableMatches(): Response
@@ -40,10 +51,5 @@ class MatchController
         return $this->responseBuilder->build(
             $this->matchService->getAvailableMatches()
         );
-    }
-
-    public function setResult(): Response
-    {
-        return new Response();
     }
 }

@@ -4,7 +4,7 @@ namespace Spacestack\Rockly\Domain;
 
 use Doctrine\ORM\Mapping as ORM;
 use Spacestack\Rockly\Domain\Events\MatchResultEntered;
-use Proxies\__CG__\Spacestack\Rockly\Domain\Team;
+use Spacestack\Rockly\Domain\Team;
 
 /**
  * @ORM\Entity
@@ -114,6 +114,11 @@ class Match extends AggregateRoot
     {
         if (!$this->id) {
             throw new DomainException("Setting result for non existing match");
+        }
+
+        if ($winner->getId() !== $this->getTeamA()->getId()
+            && $winner->getId() !== $this->getTeamB()->getId()) {
+                throw new DomainException("Winner is not in this match");
         }
 
         $this->pointA = $pointA;

@@ -7,6 +7,7 @@ use Spacestack\Rockly\Infrastructure\DTO\Out\Match as MatchOutDTO;
 use Spacestack\Rockly\Domain\Match;
 use Spacestack\Rockly\Domain\Repository\TeamRepository;
 use Spacestack\Rockly\Domain\Repository\MatchRepository;
+use Spacestack\Rockly\Infrastructure\DTO\Result;
 
 class MatchService
 {
@@ -28,6 +29,15 @@ class MatchService
 
         $match = new Match($teamA, $teamB, $dto->oddsA, $dto->oddsB);
         $match = $this->matchRepository->save($match);
+    }
+
+    public function setResult(Result $dto, int $matchId)
+    {
+        $match = $this->matchRepository->findById($matchId);
+        $winner = $this->teamRepository->findById($dto->winnerId);
+
+        $match->setResult($dto->pointA, $dto->pointB, $winner);
+        $this->matchRepository->save($match);
     }
 
     public function getAvailableMatches()

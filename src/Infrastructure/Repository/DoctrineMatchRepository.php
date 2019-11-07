@@ -46,6 +46,13 @@ class DoctrineMatchRepository implements MatchRepository
         return $match;
     }
 
+    public function findById(int $id): Match
+    {
+        return $this->em
+            ->getRepository(Match::class)
+            ->findOneBy(['id' => $id]);
+    }
+
     public function findAvailableMatches()
     {
         return $this->em
