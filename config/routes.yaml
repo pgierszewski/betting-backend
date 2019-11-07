@@ -1,2 +1,2 @@
 auth_login:
-    path: /auth/login
+    path: /api/auth/login

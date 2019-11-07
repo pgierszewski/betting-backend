@@ -62,10 +62,10 @@ class BetItem
             throw new DomainException("Invalid bet");
         }
 
-        if ($type === $this->match->getTeamA()) {
-            $this->odds = $this->match->getOddsA();
+        if ($type === $match->getTeamA()) {
+            $this->odds = $match->getOddsA();
         } else {
-            $this->odds = $this->match->getOddsB();
+            $this->odds = $match->getOddsB();
         }
         $this->bet = $bet;
         $this->match = $match;

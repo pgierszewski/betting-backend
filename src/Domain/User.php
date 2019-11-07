@@ -4,6 +4,7 @@ namespace Spacestack\Rockly\Domain;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Spacestack\Rockly\Domain\Balance;
 
 /**
  * @ORM\Entity()
@@ -32,6 +33,11 @@ class User implements UserInterface, \Serializable
      */
     private $isActive;
 
+    /**
+     * @ORM\OneToOne(targetEntity="Spacestack\Rockly\Domain\Balance", mappedBy="user")
+     */
+    private $balance;
+
     public function __construct()
     {
         $this->isActive = true;
@@ -40,6 +46,11 @@ class User implements UserInterface, \Serializable
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getBalance(): Balance
+    {
+        return $this->balance;
     }
 
     public function getUsername()

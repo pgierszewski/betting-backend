@@ -5,39 +5,22 @@ namespace Spacestack\Rockly\App;
 use Spacestack\Rockly\Domain\EventStore;
 use Spacestack\Rockly\Domain\User;
 use Spacestack\Rockly\Domain\Balance;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Serializer\SerializerInterface;
+use Spacestack\Rockly\Domain\Repository\BalanceRepository;
 
 class BalanceFactory
 {
-    private $em;
-    private $serializer;
+    private $balanceRepository;
 
-    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer)
+    public function __construct(BalanceRepository $balanceRepository)
     {
-        $this->em = $em;
-        $this->serializer = $serializer;
+        $this->balanceRepository = $balanceRepository;
     }
 
     public function create(User $user): Balance
     {
         $balance = new Balance($user);
         $balance->addBalance(1000);
-        
-        $this->em->persist($balance);
-        $this->em->flush();
-
-        foreach ($balance->releaseEvents() as $event) {
-            $this->em->persist(
-                new EventStore(
-                    $balance->getId(),
-                    Balance::class,
-                    get_class($event),
-                    $this->serializer->serialize($event, 'json')
-                )
-            );
-        }
-        $this->em->flush();
+        $balance = $this->balanceRepository->save($balance);
 
         return $balance;
     }

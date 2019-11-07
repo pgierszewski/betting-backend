@@ -4,11 +4,12 @@ namespace Spacestack\Rockly\Domain;
 
 use Doctrine\ORM\Mapping as ORM;
 use Spacestack\Rockly\Domain\Bet\BetItem;
+use Spacestack\Rockly\Domain\Events\BetPlaced;
 
 /**
  * @ORM\Entity
  */
-class Bet
+class Bet extends AggregateRoot
 {
     /**
      * @var int
@@ -49,23 +50,33 @@ class Bet
      */
     private $successful;
 
-    public function __construct(User $user, array $betItems, int $amount)
+    /**
+     * @var \DateTimeImmutable
+     * @ORM\Column(type="datetime")
+     */
+    private $occuredOn;
+
+    /**
+     * @var \DateTimeImmutable
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $resolvedOn;
+
+    public function __construct(User $user, int $amount)
     {
-        foreach ($betItems as $item) {
-            if ($item->match->winner) {
-                throw new DomainException("You can't place a bet to a finished match");
-            }
-        }
-        
         $this->user = $user;
-        $this->items = $betItems;
         $this->amount = $amount;
+        $this->occuredOn = new \DateTimeImmutable();
+        $this->dispatchEvent(
+            new BetPlaced($amount)
+        );
     }
 
     public function solveBet(bool $successful, int $winnings)
     {
         $this->successful = $successful;
         $this->winnings = $winnings;
+        $this->resolvedOn = new \DateTimeImmutable();
     }
 
     public function getUser(): User

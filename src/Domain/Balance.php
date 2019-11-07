@@ -22,7 +22,7 @@ class Balance extends AggregateRoot
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="Spacestack\Rockly\Domain\User")
+     * @ORM\ManyToOne(targetEntity="Spacestack\Rockly\Domain\User", inversedBy="balance")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
@@ -31,7 +31,7 @@ class Balance extends AggregateRoot
      * @var int
      * @ORM\Column(type="integer")
      */
-    private $balance = 0;
+    private $balance;
 
     public function __construct(User $user)
     {
@@ -54,7 +54,7 @@ class Balance extends AggregateRoot
             throw new DomainException("Insufficient balance");
         }
 
-        $this->balance = $this->amount - $amount;
+        $this->balance -= $amount;
         $this->dispatchEvent(
             new SubBalance($amount)
         );

@@ -2,17 +2,36 @@
 
 namespace Spacestack\Rockly\UI\Controller\Rest;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Spacestack\Rockly\Infrastructure\DTO\Bet;
+use Spacestack\Rockly\Infrastructure\Response\ResponseBuilder;
+use Spacestack\Rockly\App\BettingService;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class BetController
 {
-    public function getHistory(): JsonResponse
+    private $responseBuilder;
+    private $bettingService;
+
+    public function __construct(ResponseBuilder $responseBuilder, BettingService $bettingService)
     {
-        return new JsonResponse();
+        $this->responseBuilder = $responseBuilder;
+        $this->bettingService = $bettingService;
     }
 
-    public function createBet(): JsonResponse
+    public function getHistory(): Response
     {
-        return new JsonResponse();
+        return new Response();
+    }
+
+    /**
+     * @Route("/api/secured/bet", methods={"post"}, name="api_bet_place")
+     */
+    public function palceBet(Bet $bet, UserInterface $user): Response
+    {
+        return new Response(
+            $this->bettingService->placeBet($bet, $user)
+        );
     }
 }
