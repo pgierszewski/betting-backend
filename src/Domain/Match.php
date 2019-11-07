@@ -98,6 +98,26 @@ class Match extends AggregateRoot
         return $this->oddsB;
     }
 
+    public function getPointA(): int
+    {
+        return $this->pointA;
+    }
+
+    public function getPointB(): int
+    {
+        return $this->pointB;
+    }
+
+    public function getWinner(): Team
+    {
+        return $this->winner;
+    }
+
+    public function isResolved(): bool
+    {
+        return ($this->winner != null);
+    }
+
     public function changeTeams(Team $teamA, Team $teamB)
     {
         $this->teamA = $teamA;

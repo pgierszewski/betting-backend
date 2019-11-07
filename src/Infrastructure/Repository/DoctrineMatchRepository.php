@@ -59,4 +59,11 @@ class DoctrineMatchRepository implements MatchRepository
             ->getRepository(Match::class)
             ->findBy(['winner' => null]);
     }
+
+    public function findFinishedMatches()
+    {
+        return $this->em
+            ->getRepository(Match::class)
+            ->findBy(['winner' => !null]);
+    }
 }

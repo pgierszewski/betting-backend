@@ -40,29 +40,56 @@ class MatchService
         $this->matchRepository->save($match);
     }
 
+    public function getFinishedMatches()
+    {
+        $matches = $this->matchRepository->findFinishedMatches();
+        $collection = [];
+        
+        foreach ($matches as $match) {
+            $collection[] = $this->createDto($match);
+        }
+
+        return $collection;
+    }
+
     public function getAvailableMatches()
     {
         $matches = $this->matchRepository->findAvailableMatches();
         $collection = [];
         
         foreach ($matches as $match) {
-            $dto = new MatchOutDTO;
-            $dto->teamNameA = sprintf(
-                '%s / %s',
-                $match->getTeamA()->getPlayerA(),
-                $match->getTeamA()->getPlayerB()
-            );
-            $dto->teamNameB = sprintf(
-                '%s / %s',
-                $match->getTeamB()->getPlayerA(),
-                $match->getTeamB()->getPlayerB()
-            );
-            $dto->oddsA = $match->getOddsA();
-            $dto->oddsB = $match->getOddsB();
-
-            $collection[] = $dto;
+            $collection[] = $this->createDto($match);
         }
 
         return $collection;
+    }
+
+    private function createDto(Match $match)
+    {
+        $dto = new MatchOutDTO;
+        $dto->teamNameA = sprintf(
+            '%s / %s',
+            $match->getTeamA()->getPlayerA(),
+            $match->getTeamA()->getPlayerB()
+        );
+        $dto->teamIdA = $match->getTeamA()->getId();
+
+        $dto->teamNameB = sprintf(
+            '%s / %s',
+            $match->getTeamB()->getPlayerA(),
+            $match->getTeamB()->getPlayerB()
+        );
+        $dto->teamIdB = $match->getTeamB()->getId();
+
+        $dto->oddsA = $match->getOddsA();
+        $dto->oddsB = $match->getOddsB();
+
+        if ($match->isResolved()) {
+            $dto->winner = $match->getWinner()->getId();
+            $dto->pointA = $match->getPointA();
+            $dto->pointB = $match->getPointB();
+        }
+
+        return $dto;
     }
 }

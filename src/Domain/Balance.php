@@ -29,6 +29,7 @@ class Balance extends AggregateRoot
 
     /**
      * @var int
+     * @ORM\Column(type="integer")
      */
     private $balance = 0;
 

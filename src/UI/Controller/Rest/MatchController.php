@@ -44,12 +44,22 @@ class MatchController
     }
 
     /**
-     * @Route("/api/match", methods={"GET"}, name="api_match_get_available")
+     * @Route("/api/match/available", methods={"GET"}, name="api_match_get_available")
      */
     public function getAvailableMatches(): Response
     {
         return $this->responseBuilder->build(
             $this->matchService->getAvailableMatches()
+        );
+    }
+
+    /**
+     * @Route("/api/match/finished", methods={"GET"}, name="api_match_get_finished")
+     */
+    public function getFinishedMatches(): Response
+    {
+        return $this->responseBuilder->build(
+            $this->matchService->getFinishedMatches()
         );
     }
 }

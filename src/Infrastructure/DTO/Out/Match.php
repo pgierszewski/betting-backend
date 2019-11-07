@@ -8,8 +8,12 @@ class Match implements DTO
 {
     /** @var string */
     public $teamNameA;
+    /** @var int */
+    public $teamIdA;
     /** @var string */
     public $teamNameB;
+    /** @var int */
+    public $teamIdB;
     /** @var float */
     public $oddsA;
     /** @var float */
@@ -18,4 +22,6 @@ class Match implements DTO
     public $pointA;
     /** @var int|null */
     public $pointB;
+    /** @var int|null */
+    public $winner;
 }
