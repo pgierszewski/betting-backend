@@ -148,7 +148,7 @@ class Match extends AggregateRoot
             $this->id,
             $pointA,
             $pointB,
-            $winner
+            $winner->getId()
         ));
     }
 }

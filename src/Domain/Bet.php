@@ -27,7 +27,6 @@ class Bet extends AggregateRoot
     private $user;
 
     /**
-     * @var BetItem[]
      * @ORM\OneToMany(targetEntity="Spacestack\Rockly\Domain\Bet\BetItem", mappedBy="bet")
      */
     private $items;
@@ -79,6 +78,11 @@ class Bet extends AggregateRoot
         $this->resolvedOn = new \DateTimeImmutable();
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getUser(): User
     {
         return $this->user;
@@ -89,12 +93,12 @@ class Bet extends AggregateRoot
         return $this->amount;
     }
 
-    public function getSuccessful(): bool
+    public function getSuccessful(): ?bool
     {
         return $this->successful;
     }
 
-    public function getItems(): array
+    public function getItems()
     {
         return $this->items;
     }

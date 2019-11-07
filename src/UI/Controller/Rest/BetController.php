@@ -31,7 +31,8 @@ class BetController
     public function palceBet(Bet $bet, UserInterface $user): Response
     {
         return new Response(
-            $this->bettingService->placeBet($bet, $user)
+            $this->bettingService->placeBet($bet, $user),
+            Response::HTTP_CREATED
         );
     }
 }

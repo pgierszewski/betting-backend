@@ -31,6 +31,8 @@ class DoctrineMatchRepository implements MatchRepository
         $this->em->flush();
 
         foreach ($match->releaseEvents() as $event) {
+            $this->eventBus->dispatch($event);
+            exit;
             $this->em->persist(
                 new EventStore(
                     $match->getId(),

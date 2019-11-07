@@ -13,15 +13,15 @@ class MatchResultEntered extends Event
     private $pointA;
     /** @var int */
     private $pointB;
-    /** @var Team */
-    private $winner;
+    /** @var int */
+    private $winnerId;
 
-    public function __construct(int $matchId, int $pointA, int $pointB, Team $winner)
+    public function __construct(int $matchId, int $pointA, int $pointB, int $winnerId)
     {
         $this->matchId = $matchId;
         $this->pointA = $pointA;
         $this->pointB = $pointB;
-        $this->winner = $winner;
+        $this->winnerId = $winnerId;
     }
 
     public function getPointB(): int
@@ -39,8 +39,8 @@ class MatchResultEntered extends Event
         return $this->matchId;
     }
 
-    public function getWinner(): Team
+    public function getWinnerId(): int
     {
-        return $this->winner;
+        return $this->winnerId;
     }
 }

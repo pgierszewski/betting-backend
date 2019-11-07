@@ -7,11 +7,13 @@ use Spacestack\Rockly\Domain\Match;
 use Spacestack\Rockly\Domain\Team;
 use Spacestack\Rockly\Domain\Bet;
 use Zend\EventManager\Exception\DomainException;
+use Spacestack\Rockly\Domain\AggregateRoot;
+use Spacestack\Rockly\Domain\Events\BetItemSolved;
 
 /**
  * @ORM\Entity
  */
-class BetItem
+class BetItem extends AggregateRoot
 {
     /**
      * @var int
@@ -72,12 +74,28 @@ class BetItem
         $this->type = $type;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function setSuccessful(bool $successful): void
     {
         $this->successful = $successful;
+        $this->dispatchEvent(new BetItemSolved($this->bet->getId()));
     }
 
-    public function getSuccessful(): bool
+    public function getBet(): Bet
+    {
+        return $this->bet;
+    }
+
+    public function getOdds(): float
+    {
+        return $this->odds;
+    }
+
+    public function getSuccessful(): ?bool
     {
         return $this->successful;
     }
