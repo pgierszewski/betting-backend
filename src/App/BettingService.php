@@ -74,6 +74,9 @@ class BettingService
     public function resolveBetItems(int $matchId, int $winnerId)
     {
         $match = $this->matchRepository->findById($matchId);
+        if (!$match) {
+            return;
+        }
         $betItems = $this->em
             ->getRepository(BetItem::class)
             ->findBy(['match' => $match]);
@@ -98,16 +101,29 @@ class BettingService
         foreach ($bet->getItems() as $item) {
             if (false === $item->getSuccessful()) {
                 $bet->solveBet(false, 0);
+                $this->betRepository->save($bet);
                 return;
             }
+        }
+
+        foreach ($bet->getItems() as $item) {
             if (null === $item->getSuccessful()) {
                 return;
             }
+
             $odds *= $item->getOdds();
         }
+        $this->em->getConnection()->beginTransaction();
+        $winnings = (int)($bet->getAmount() * $odds);
         $bet->solveBet(
             true,
-            (int)($bet->getAmount() * $odds)
+            $winnings
         );
+        $this->betRepository->save($bet);
+        $balance = $bet->getUser()->getBalance();
+        $balance->addBalance($winnings);
+        $this->balanceRepository->save($balance);
+
+        $this->em->getConnection()->commit();
     }
 }
