@@ -60,7 +60,9 @@ class DoctrineBetRepository implements BetRepository
 
     public function getBetsByUser(User $user)
     {
-        
+        return $this->em
+            ->getRepository(Bet::class)
+            ->findBy(['user' => $user]);
     }
 
     public function getBetsByMatch(Match $user)

@@ -103,8 +103,18 @@ class Bet extends AggregateRoot
         return $this->items;
     }
 
-    public function getWinnings(): int
+    public function getWinnings(): ?int
     {
         return $this->winnings;
+    }
+
+    public function getOccuredOn()
+    {
+        return $this->occuredOn;
+    }
+
+    public function getResolvedOn()
+    {
+        return $this->resolvedOn;
     }
 }
