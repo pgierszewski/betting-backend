@@ -2,26 +2,35 @@
   div(class="match-home")
     h1
       | Matches
-    div
-      div(v-for="matchBet in getMatches" :key="matchBet.id" class="match-wrapper")
-        div(
-          class="team-a"
-          :class="{ selected: isSelected(matchBet, 'teamIdA', getSelectedMatches) }"
-          @click="addMatch({match: matchBet, pick: matchBet.teamIdA})"
-        )
-          b
-            | {{ matchBet.oddsA }}
-          p
-            | {{ matchBet.teamNameA }}
-        div(
-          class="team-b"
-          :class="{ selected: isSelected(matchBet, 'teamIdB', getSelectedMatches) }"
-          @click="addMatch({match:matchBet, pick: matchBet.teamIdB})"
-        )
-          p
-            | {{ matchBet.teamNameB }}
-          b
-            | {{ matchBet.oddsB }}
+    div(
+        v-for="matchBet in getMatches"
+        v-if="!getLoading"
+        :key="matchBet.id"
+        class="match-wrapper"
+      )
+      div(
+        class="team-a"
+        :class="{ selected: isSelected(matchBet, 'teamIdA', getSelectedMatches) }"
+        @click="addMatch({match: matchBet, pick: matchBet.teamIdA})"
+      )
+        b
+          | {{ matchBet.oddsA }}
+        p
+          | {{ matchBet.teamNameA }}
+      div(
+        class="team-b"
+        :class="{ selected: isSelected(matchBet, 'teamIdB', getSelectedMatches) }"
+        @click="addMatch({match:matchBet, pick: matchBet.teamIdB})"
+      )
+        p
+          | {{ matchBet.teamNameB }}
+        b
+          | {{ matchBet.oddsB }}
+    a-spin(
+      v-if="getLoading"
+      size="large"
+      class="spinner"
+    )
 </template>
 
 
@@ -50,7 +59,7 @@ export default {
   components: {
   },
   computed: {
-    ...mapGetters(["getMatches", "getSelectedMatches"]),
+    ...mapGetters(["getMatches", "getSelectedMatches", "getLoading"]),
   },
   methods: {
     ...mapActions(["addMatch"]),
@@ -95,6 +104,10 @@ export default {
 .team-b.selected {
  background-color: #1890ff;
  color: white;
+}
+.spinner {
+  display: flex !important;
+  justify-content: center !important;
 }
 </style>
 

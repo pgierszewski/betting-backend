@@ -28,6 +28,7 @@ const getters = {
 const actions = {
     [GET_MATCHES](context) {
         return new Promise(resolve => {
+            context.commit(SET_LOADING, true)
             ApiService.get("match/available")
             .then(({ data }) => {
                 context.commit(SET_AVAILABLE_MATCHES, data);

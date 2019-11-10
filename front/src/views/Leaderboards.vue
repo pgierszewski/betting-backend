@@ -28,7 +28,7 @@ const columns = [
       width: '5%'
     },
     {
-      title: 'e-mail',
+      title: 'Player',
       dataIndex: 'email',
       key: 'email',
     },
