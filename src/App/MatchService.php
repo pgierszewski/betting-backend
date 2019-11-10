@@ -67,6 +67,7 @@ class MatchService
     private function createDto(Match $match)
     {
         $dto = new MatchOutDTO;
+        $dto->id = $match->getId();
         $dto->teamNameA = sprintf(
             '%s / %s',
             $match->getTeamA()->getPlayerA(),

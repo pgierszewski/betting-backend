@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Spacestack\Rockly\App\BalanceFactory;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 class AuthController
 {
@@ -19,7 +20,8 @@ class AuthController
         Request $request,
         UserPasswordEncoderInterface $encoder,
         EntityManagerInterface $em,
-        BalanceFactory $balanceFactory
+        BalanceFactory $balanceFactory,
+        JWTTokenManagerInterface $jwtManager
     ) {
         $data = json_decode($request->getContent(), true);
         if (!isset($data['email']) || !isset($data['password'])) {
@@ -50,6 +52,9 @@ class AuthController
 
         $balance = $balanceFactory->create($user);
  
-        return new JsonResponse('User created', JsonResponse::HTTP_CREATED);
+        return new JsonResponse(
+            ['token' => $jwtManager->create($user)],
+            JsonResponse::HTTP_CREATED
+        );
     }
 }

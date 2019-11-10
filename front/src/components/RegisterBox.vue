@@ -71,6 +71,8 @@
 </template>
 
 <script>
+import { REGISTER } from "@/store/actions.type";
+
 export default {
   data() {
     return {
@@ -107,7 +109,12 @@ export default {
       e.preventDefault();
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values);
+          this.$store
+            .dispatch(REGISTER, {
+              email: values.email,
+              password: values.password,
+            })
+            .then(() => this.$router.push("/"));
         }
       });
     },

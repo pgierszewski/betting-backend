@@ -33,7 +33,7 @@
       </a-input>
     </a-form-item>
     <a-form-item>
-      <a-button type="primary" html-type="submit" :disabled="hasErrors(form.getFieldsError())">
+      <a-button type="primary" html-type="submit" :disabled="hasErrors(form.getFieldsError())" :loading="getLoadingLogin">
         Log in
       </a-button>
     </a-form-item>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { LOGIN } from "@/store/actions.type";
 
 function hasErrors(fieldsError) {
@@ -62,7 +62,8 @@ export default {
   computed: {
     ...mapState({
       errors: state => state.auth.errors
-    })
+    }),
+    ...mapGetters(["getLoadingLogin"]),
   },
   methods: {
     emailError() {

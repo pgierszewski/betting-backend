@@ -6,6 +6,8 @@ use Spacestack\Rockly\Infrastructure\DTO\DTO;
 
 class Match implements DTO
 {
+    /** @var int */
+    public $id;
     /** @var string */
     public $teamNameA;
     /** @var int */

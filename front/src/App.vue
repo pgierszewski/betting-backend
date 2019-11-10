@@ -3,12 +3,16 @@ a-layout(id="app")
   a-layout-header
     div(class="buttons")
       p
-        | Betting
+        router-link(to="/")
+          | Betting
       p
-        | Leaderboards
-      p
-        | Register
-    LoginBox(class="login-box")
+        router-link(to="/leaderboards")
+          | Leaderboards
+      p(v-if="!isAuthenticated")
+        router-link(to="/register")
+          | Register
+    LoginBox(v-if="!isAuthenticated" class="login-box")
+    UserBox(v-if="isAuthenticated" class="user-box")
   a-layout
     a-layout-content
       router-view
@@ -19,11 +23,17 @@ a-layout(id="app")
 </template>
 
 <script>
-import LoginBox from './components/LoginBox'
+import { mapGetters } from "vuex";
+import LoginBox from './components/LoginBox';
+import UserBox from './components/UserBox';
 
 export default {
   components: {
-    LoginBox
+    LoginBox,
+    UserBox
+  },
+  computed: {
+    ...mapGetters(["isAuthenticated"]),
   }
 }
 </script>
@@ -32,6 +42,12 @@ export default {
 <style lang="scss">
 #app {
   height: 100%;
+}
+#app .user-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 400px;
 }
 #app .buttons {
   display: flex;

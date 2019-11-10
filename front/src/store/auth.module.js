@@ -3,15 +3,17 @@ import JwtService from "@/common/jwt.service";
 import {
   LOGIN,
   LOGOUT,
+  CHECK_AUTH,
   REGISTER
 } from "./actions.type";
-import { SET_AUTH, PURGE_AUTH, SET_ERROR } from "./mutations.type";
+import { SET_AUTH, PURGE_AUTH, SET_ERROR, SET_LOADING_LOGIN } from "./mutations.type";
 import jwt_decode from 'jwt-decode';
 
 const state = {
   errors: null,
   user: {},
-  isAuthenticated: !!JwtService.getToken()
+  isAuthenticated: !!JwtService.getToken(),
+  loadingLogin: false
 };
 
 const getters = {
@@ -20,18 +22,24 @@ const getters = {
   },
   isAuthenticated(state) {
     return state.isAuthenticated;
+  },
+  getLoadingLogin(state) {
+    return state.loadingLogin;
   }
 };
 
 const actions = {
   [LOGIN](context, credentials) {
     return new Promise(resolve => {
+      context.commit(SET_LOADING_LOGIN, true);
       ApiService.post("auth/login", credentials)
         .then(({ data }) => {
           context.commit(SET_AUTH, data);
+          context.commit(SET_LOADING_LOGIN, false);
           resolve(data);
         })
         .catch(({ response }) => {
+          context.commit(SET_LOADING_LOGIN, false);
           context.commit(SET_ERROR, response.data.message);
         });
     });
@@ -39,19 +47,24 @@ const actions = {
   [LOGOUT](context) {
     context.commit(PURGE_AUTH);
   },
-  // [REGISTER](context, credentials) {
-  //   return new Promise((resolve, reject) => {
-  //     ApiService.post("auth/register", credentials)
-  //       .then(({ data }) => {
-  //         context.commit(SET_AUTH, data.user);
-  //         resolve(data);
-  //       })
-  //       .catch(({ response }) => {
-  //         context.commit(SET_ERROR, response.data.errors);
-  //         reject(response);
-  //       });
-  //   });
-  // },
+  [CHECK_AUTH](context) {
+    if (JwtService.getToken() && {}) {
+      context.commit(SET_AUTH, { token: JwtService.getToken()})
+    }
+  },
+  [REGISTER](context, credentials) {
+    return new Promise((resolve) => {
+      ApiService.post("auth/register", credentials)
+        .then(({ data }) => {
+          context.commit(SET_AUTH, data);
+          resolve(data);
+        })
+        // .catch(({ response }) => {
+        //   context.commit(SET_ERROR, response.data.errors);
+        //   reject(response);
+        // });
+    });
+  },
 };
 
 const mutations = {
@@ -69,6 +82,10 @@ const mutations = {
     state.user = {};
     state.errors = false;
     JwtService.destroyToken();
+  },
+  [SET_LOADING_LOGIN](state, loading) {
+    console.log('qwe')
+    state.loadingLogin = loading;
   }
 };
 
