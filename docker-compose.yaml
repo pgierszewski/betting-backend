@@ -30,6 +30,9 @@ services:
     ports:
       - 3307:3306
 
+  redis:
+    image: redis:latest
+
   front:
     build:
       context: .

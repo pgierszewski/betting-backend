@@ -1,5 +1,7 @@
 <template lang="pug">
   div(class="home")
+    h1
+      | Leaderboards
     a-table(
         :columns="columns"
         :dataSource="getLeaderboards"
@@ -10,8 +12,6 @@
     )
       span(slot="positionTitle")
         a-icon(type="smile-o" width="")
-      span(slot="position" slot-scope="index, record")
-        | {{ index }}
 
 </template>
 
@@ -58,5 +58,12 @@ export default {
 <style>
 .leaderboards-table {
     width: 450px;
+}
+.home h1 {
+    display: flex;
+    justify-content: center;
+}
+.home {
+
 }
 </style>

@@ -6,3 +6,4 @@ export const SET_AVAILABLE_MATCHES = "setAvailableMatches";
 export const SET_LEADERBOARDS = "setLeaderboards";
 export const SET_LOADING = "setLoading"
 export const SET_LOADING_LOGIN = "setLoadingLogin"
+export const SET_SELECTED_MATCHES = "setSelectedMatches"

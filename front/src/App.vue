@@ -16,10 +16,10 @@ a-layout(id="app")
   a-layout
     a-layout-content
       router-view
-    a-layout-sider
+    a-layout-sider(width="350")
      | Sider
   a-layout-footer
-    | Footer
+    | Backstreet Betting League
 </template>
 
 <script>
@@ -59,8 +59,9 @@ export default {
   background-color: #ffffff;
   border: 1px solid #ebedf0;
   display: flex;
-  align-items: center;
+  align-items: top;
   justify-content: center;
+  padding-top: 30px;
 }
 #app .ant-layout-header {
   background-color: #ffffff;
@@ -77,5 +78,6 @@ export default {
 #app .ant-layout-sider {
   background-color: #ffffff;
   border: 1px solid #ebedf0;
+  width: 20%;
 }
 </style>
