@@ -67,6 +67,9 @@ class Match extends AggregateRoot
 
     public function __construct(Team $teamA, Team $teamB, float $oddsA, float $oddsB)
     {
+        if ($teamA == $teamB) {
+            throw new DomainException("You can't create match with same team");
+        }
         $this->teamA = $teamA;
         $this->teamB = $teamB;
         $this->oddsA = $oddsA;
