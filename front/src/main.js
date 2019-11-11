@@ -13,6 +13,7 @@ ApiService.init();
 
 Vue.config.productionTip = false
 
+
 router.beforeEach((to, from, next) =>
   Promise.all([store.dispatch(CHECK_AUTH)]).then(next)
 );

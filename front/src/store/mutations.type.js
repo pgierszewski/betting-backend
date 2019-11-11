@@ -7,3 +7,5 @@ export const SET_LEADERBOARDS = "setLeaderboards";
 export const SET_LOADING = "setLoading"
 export const SET_LOADING_LOGIN = "setLoadingLogin"
 export const SET_SELECTED_MATCHES = "setSelectedMatches"
+export const SET_LOADING_BET = "setLoadingBet"
+export const SET_BET_HISTORY = "setBetHistory";

@@ -93,7 +93,7 @@ class BettingService
             ->getRepository(Bet::class)
             ->findOneBy(['id' => $betId]);
 
-        if (false === $bet->getSuccessful()) {
+        if (null !== $bet->getSuccessful()) {
             return;
         }
 
@@ -107,7 +107,7 @@ class BettingService
         }
 
         foreach ($bet->getItems() as $item) {
-            if (null === $item->getSuccessful()) {
+            if (null == $item->getSuccessful()) {
                 return;
             }
 

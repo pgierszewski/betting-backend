@@ -8,6 +8,9 @@ a-layout(id="app")
       p
         router-link(to="/leaderboards")
           | Leaderboards
+      p(v-if="isAuthenticated")
+        router-link(to="/history")
+          | History
       p(v-if="!isAuthenticated")
         router-link(to="/register")
           | Register
@@ -17,7 +20,7 @@ a-layout(id="app")
     a-layout-content
       router-view
     a-layout-sider(width="350")
-     | Sider
+      BetBox
   a-layout-footer
     | Backstreet Betting League
 </template>
@@ -26,11 +29,13 @@ a-layout(id="app")
 import { mapGetters } from "vuex";
 import LoginBox from './components/LoginBox';
 import UserBox from './components/UserBox';
+import BetBox from './components/BetBox'
 
 export default {
   components: {
     LoginBox,
-    UserBox
+    UserBox,
+    BetBox
   },
   computed: {
     ...mapGetters(["isAuthenticated"]),
@@ -79,5 +84,6 @@ export default {
   background-color: #ffffff;
   border: 1px solid #ebedf0;
   width: 20%;
+  overflow: auto;
 }
 </style>

@@ -1,13 +1,14 @@
 import ApiService from "@/common/api.service";
 
-import { SET_AVAILABLE_MATCHES, SET_LEADERBOARDS, SET_LOADING, SET_SELECTED_MATCHES } from "./mutations.type";
-import { GET_MATCHES, GET_LEADERBOARDS, ADD_MATCH } from "./actions.type";
+import { SET_AVAILABLE_MATCHES, SET_LEADERBOARDS, SET_LOADING, SET_SELECTED_MATCHES, SET_LOADING_BET } from "./mutations.type";
+import { GET_MATCHES, GET_LEADERBOARDS, ADD_MATCH, BET, UPDATE_BALANCE } from "./actions.type";
 
 const state = {
     availableMatches: [],
     leaderboards: [],
     loading: false,
-    selectedMatches: []
+    selectedMatches: [],
+    betLoading: false,
 };
 
 const getters = {
@@ -22,6 +23,9 @@ const getters = {
     },
     getSelectedMatches(state) {
       return state.selectedMatches;
+    },
+    getBetLoading(state) {
+      return state.betLoading;
     }
 };
 
@@ -67,8 +71,21 @@ const actions = {
                 selectedMatches.push(data);
             }
             context.commit(SET_SELECTED_MATCHES, selectedMatches)
+            resolve(data)
         });
-        // context.state.selectedMatches.
+    },
+    [BET](context, data) {
+        return new Promise(resolve => {
+            context.commit(SET_LOADING_BET, true);
+            ApiService.setHeader();
+            ApiService.post("secured/bet", data)
+            .then(({ data }) => {
+                context.commit(SET_SELECTED_MATCHES, []);
+                context.commit(SET_LOADING_BET, false);
+                context.dispatch(UPDATE_BALANCE)
+                resolve(data);
+            })
+        });
     }
 }
 
@@ -84,6 +101,9 @@ const mutations = {
     },
     [SET_SELECTED_MATCHES](state, matches) {
         state.selectedMatches = matches
+    },
+    [SET_LOADING_BET](state, loading) {
+        state.betLoading = loading;
     }
 }
 

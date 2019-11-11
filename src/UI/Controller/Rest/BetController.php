@@ -26,11 +26,6 @@ class BetController
         $this->betHistoryService = $betHistoryService;
     }
 
-    public function getHistory(): Response
-    {
-        return new Response();
-    }
-
     /**
      * @Route("/api/secured/bet", methods={"post"}, name="api_bet_place")
      */

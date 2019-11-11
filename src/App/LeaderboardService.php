@@ -55,7 +55,7 @@ class LeaderboardService
             $collection[] = $dto;
         }
 
-        $item->expiresAfter(new \DateInterval('PT3600S'));
+        $item->expiresAfter(new \DateInterval('PT360S'));
         $item->set($this->serializer->serialize($collection, 'json'));
         $this->cache->save($item);
 

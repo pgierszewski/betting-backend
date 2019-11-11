@@ -59,10 +59,6 @@ const actions = {
           context.commit(SET_AUTH, data);
           resolve(data);
         })
-        // .catch(({ response }) => {
-        //   context.commit(SET_ERROR, response.data.errors);
-        //   reject(response);
-        // });
     });
   },
 };

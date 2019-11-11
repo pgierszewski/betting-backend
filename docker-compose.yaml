@@ -26,7 +26,7 @@ services:
       MYSQL_USER: dbuser
       MYSQL_PASSWORD: 123
     volumes:
-      - /tmp/mysql:/var/lib/mysql
+      - /Users/przemyslawgierszewski/temp:/var/lib/mysql
     ports:
       - 3307:3306
 

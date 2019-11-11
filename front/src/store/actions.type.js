@@ -6,3 +6,5 @@ export const CHECK_AUTH = "checkAuth";
 export const GET_MATCHES = "getMatches";
 export const GET_LEADERBOARDS = "getLeaderboards";
 export const ADD_MATCH = "addMatch";
+export const BET = "bet";
+export const GET_BET_HISTORY = "getBetHistory";
