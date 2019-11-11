@@ -8,8 +8,24 @@
         :pagination="false"
         :rowKey="record => record.occuredOn"
         :loading="getBetHistory.loading"
-        class="leaderboards-table"
+        class="history-table"
     )
+      div(slot="items" slot-scope="record")
+        div(
+          v-for="item in record"
+          class="bet-item-history"
+        )
+          div(class="bet-content")
+            | Match:
+            | {{ item.teamA }}&nbsp;vs&nbsp;{{ item.teamB }}
+            b(
+              :class="{success: item.successful == true, lost: item.successful == false}"
+            )
+              div(class="icon-wrapper")
+                a-icon(type="check" v-if="item.successful == true")
+                a-icon(type="question" v-if="item.successful == null")
+                a-icon(type="close" v-if="item.successful == false")
+              | {{ item.odds }} &nbsp; {{ item.type }}
 
 </template>
 
@@ -22,22 +38,27 @@ const columns = [
     {
       dataIndex: 'occuredOn',
       key: 'occuredOn',
-      title: 'Date'
+      title: 'Date',
+      width: '15%'
     },
     {
       dataIndex: 'winnings',
       key: 'winnings',
-      title: 'Winnings'
+      title: 'Winnings',
+      width: '15%'
     },
     {
       dataIndex: 'resolvedOn',
       key: 'resolvedOn',
-      title: 'Resolve date'
+      title: 'Resolve date',
+      width: '15%'
     },
     {
         dataIndex: 'items',
         key: 'items',
-        title: 'Bet'
+        title: 'Bet',
+        scopedSlots: { customRender: 'items' },
+        width: '55%'
     }
 ];
 
@@ -57,15 +78,31 @@ export default {
   }
 }
 </script>
-<style>
-.leaderboards-table {
-    width: 450px;
+<style <style lang="scss">
+.bet-item-history {
+  display: flex;
+
+  .bet-content {
+    display: flex;
+    flex-direction: column;
+
+    b {
+      display: flex;
+      flex-direction: row;
+    }
+    .success {
+      color: green;
+    }
+    .lost {
+      color: red; 
+    }
+  }
+}
+.history-table {
+    width: 850px;
 }
 .home h1 {
     display: flex;
     justify-content: center;
-}
-.home {
-
 }
 </style>

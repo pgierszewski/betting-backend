@@ -25,10 +25,11 @@
       a-button(
           type="primary"
           class="bet-button"
-          v-if="getSelectedMatches.length > 0"
+          v-if="getSelectedMatches.length > 0 && isAuthenticated"
+          :loading="getBetLoading"
           @click="bet({amount: value, betItems: mapMatches(getSelectedMatches)})"
         )
-        | Bet {{getBetLoading}}
+        | Bet
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
@@ -76,7 +77,7 @@ export default {
       }
   },
   computed: {
-    ...mapGetters(["getSelectedMatches", "getBetLoading"]),
+    ...mapGetters(["getSelectedMatches", "getBetLoading", "isAuthenticated"]),
     combinedOdds () {
       return this.getSelectedMatches.reduce((odds, match) => {
           return odds * getPickedTeamOdds(match);
@@ -87,7 +88,7 @@ export default {
 </script>
 <style lang="scss">
 .bet-button {
-    width: 50px;
+    width: 100px;
 }
 .bet-wrapper {
     display: flex;

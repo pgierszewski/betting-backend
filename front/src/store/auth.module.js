@@ -80,7 +80,6 @@ const mutations = {
     JwtService.destroyToken();
   },
   [SET_LOADING_LOGIN](state, loading) {
-    console.log('qwe')
     state.loadingLogin = loading;
   }
 };
