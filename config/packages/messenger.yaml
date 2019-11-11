@@ -9,12 +9,13 @@ framework:
 
 
         transports:
-            default: 'in-memory:///'
+            default: '%env(MESSENGER_TRANSPORT_DSN)%'
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             # async: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
 
         routing:
+            '*': default
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
